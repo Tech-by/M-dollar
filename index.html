@@ -13,22 +13,8 @@
 <meta name="9de5e6800eea3075d0bc10a2bf60693e44c97059"
       content="9de5e6800eea3075d0bc10a2bf60693e44c97059">
 
-<!-- =====================================================
-     HILLTOP ADS — POPUNDER ZONE
-     Fires on user click. Do not move below the fold.
-====================================================== -->
-<script>
-(function(cvhhclg){
-var d = document,
-    s = d.createElement('script'),
-    l = d.currentScript || d.scripts[d.scripts.length - 1];
-s.settings = cvhhclg || {};
-s.src = "\/\/surefootedpause.com\/cNDR9p6.bP2p5MltSvW\/QI9VNLzzQm3cMfj_kb0mNpSI0K3QNrD-cQyvODTfQt5a";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({});
-</script>
+<!-- Popunder <script> removed — we're using the Direct Link now.
+     If you ever switch back to the script, paste it here. -->
 
 <style>
 :root{
@@ -57,11 +43,7 @@ body{
 }
 .app{max-width:640px;margin:0 auto;padding:0 14px}
 
-/* ---------- top bar ---------- */
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 0 12px;
-}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 0 12px}
 .brand{display:flex;align-items:center;gap:10px}
 .logo{
   width:38px;height:38px;border-radius:11px;
@@ -72,7 +54,6 @@ body{
 }
 .brand h1{font-size:16px;margin:0;font-weight:700;letter-spacing:-.2px}
 .brand .sub{font-size:11.5px;color:var(--muted);display:block;margin-top:1px}
-
 .icon-btn{
   width:36px;height:36px;border-radius:10px;border:1px solid var(--line);
   background:var(--card);color:var(--muted);font-size:15px;
@@ -80,15 +61,11 @@ body{
 }
 .icon-btn:active{transform:scale(.94)}
 
-/* ---------- balance card ---------- */
 .balance{
   background:linear-gradient(135deg,#00A651 0%,#00753A 100%);
-  border-radius:18px;
-  padding:18px 18px 16px;
-  color:#fff;
+  border-radius:18px;padding:18px 18px 16px;color:#fff;
   box-shadow:0 8px 22px rgba(0,117,58,.26);
-  position:relative;
-  overflow:hidden;
+  position:relative;overflow:hidden;
 }
 .balance::after{
   content:"";position:absolute;right:-40px;top:-40px;
@@ -99,19 +76,12 @@ body{
 .balance .pts{font-size:34px;font-weight:800;letter-spacing:-1px;margin:2px 0 0;line-height:1.1}
 .balance .pts small{font-size:14px;font-weight:600;opacity:.8;margin-left:5px}
 .balance .naira{font-size:13px;opacity:.9;margin-top:2px}
-.balance .row{
-  display:flex;gap:10px;margin-top:14px;
-  border-top:1px solid rgba(255,255,255,.18);padding-top:12px;
-}
+.balance .row{display:flex;gap:10px;margin-top:14px;border-top:1px solid rgba(255,255,255,.18);padding-top:12px}
 .balance .row div{flex:1}
 .balance .row .k{font-size:10.5px;opacity:.8;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
 .balance .row .v{font-size:15px;font-weight:700;margin-top:1px}
 
-/* ---------- tabs ---------- */
-.tabs{
-  display:flex;gap:6px;background:var(--card);border-radius:12px;
-  padding:4px;margin:14px 0;border:1px solid var(--line);
-}
+.tabs{display:flex;gap:6px;background:var(--card);border-radius:12px;padding:4px;margin:14px 0;border:1px solid var(--line)}
 .tab{
   flex:1;border:0;background:transparent;padding:9px 0;border-radius:9px;
   font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;
@@ -119,21 +89,15 @@ body{
 }
 .tab.active{background:var(--green);color:#fff;box-shadow:0 2px 6px rgba(0,166,81,.3)}
 
-/* ---------- panels ---------- */
 .panel{display:none}
 .panel.active{display:block;animation:fade .18s ease}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-/* ---------- limits strip ---------- */
 .limits{display:flex;gap:8px;margin-bottom:12px}
-.limits .pill{
-  flex:1;background:var(--card);border:1px solid var(--line);border-radius:11px;
-  padding:9px 10px;text-align:center;
-}
+.limits .pill{flex:1;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px 10px;text-align:center}
 .limits .pill .n{font-size:14px;font-weight:800}
 .limits .pill .t{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
 
-/* ---------- task list ---------- */
 .task-list{display:flex;flex-direction:column;gap:9px}
 .task{
   background:var(--card);border:1px solid var(--line);border-radius:var(--r);
@@ -143,31 +107,19 @@ body{
 .task:active{transform:scale(.988)}
 .task.done{opacity:.55}
 .task.blocked{opacity:.45}
-
 .task .num{
   width:38px;height:38px;flex:0 0 38px;border-radius:11px;
   background:var(--green-soft);color:var(--green-dark);
   display:grid;place-items:center;font-weight:800;font-size:12.5px;
 }
 .task.done .num{background:#EEF2F6;color:var(--muted)}
-
 .task .meta{flex:1;min-width:0}
-.task .title{
-  font-size:14px;font-weight:650;margin:0;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
+.task .title{font-size:14px;font-weight:650;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .task .tags{display:flex;gap:6px;margin-top:3px;align-items:center}
-.task .tag{
-  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
-  color:var(--muted);background:#F1F5F9;padding:2px 6px;border-radius:5px;
-}
+.task .tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);background:#F1F5F9;padding:2px 6px;border-radius:5px}
 .task .tag.time{background:transparent;padding:0;font-weight:600}
-
 .task .right{display:flex;align-items:center;gap:9px;flex:0 0 auto}
-.task .pts{
-  font-size:13px;font-weight:800;color:var(--gold);
-  background:#FFF8EB;padding:4px 8px;border-radius:8px;white-space:nowrap;
-}
+.task .pts{font-size:13px;font-weight:800;color:var(--gold);background:#FFF8EB;padding:4px 8px;border-radius:8px;white-space:nowrap}
 .task button.go{
   border:0;background:var(--green);color:#fff;font-weight:700;font-size:12.5px;
   padding:9px 15px;border-radius:9px;cursor:pointer;font-family:inherit;
@@ -177,38 +129,21 @@ body{
 .task button.go:disabled{background:#D7DEE6;color:#8A97A6;cursor:not-allowed;transform:none}
 .task button.go.done{background:#EEF2F6;color:var(--muted)}
 
-/* ---------- history / wallet ---------- */
-.empty{
-  text-align:center;padding:44px 20px;color:var(--muted);font-size:13.5px;
-  background:var(--card);border:1px dashed var(--line);border-radius:var(--r);
-}
+.empty{text-align:center;padding:44px 20px;color:var(--muted);font-size:13.5px;background:var(--card);border:1px dashed var(--line);border-radius:var(--r)}
 .empty .big{font-size:30px;display:block;margin-bottom:8px;opacity:.5}
-
-.hist-item{
-  background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:11px 13px;display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:8px;
-}
+.hist-item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .hist-item .t{font-size:13.5px;font-weight:600}
 .hist-item .d{font-size:11px;color:var(--muted);margin-top:1px}
 .hist-item .p{font-size:13.5px;font-weight:800;color:var(--green);white-space:nowrap}
 
-.wallet-box{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:18px;text-align:center;box-shadow:var(--shadow);
-}
+.wallet-box{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;text-align:center;box-shadow:var(--shadow)}
 .wallet-box .big-pts{font-size:32px;font-weight:800;color:var(--green-dark);letter-spacing:-1px}
 .wallet-box .naira{font-size:14px;color:var(--muted);margin-top:2px}
 .wallet-box .rate{font-size:11.5px;color:var(--muted);margin-top:8px}
-.wallet-box button{
-  width:100%;margin-top:16px;padding:13px;border:0;border-radius:11px;
-  background:var(--green);color:#fff;font-weight:700;font-size:14px;
-  font-family:inherit;cursor:pointer;
-}
+.wallet-box button{width:100%;margin-top:16px;padding:13px;border:0;border-radius:11px;background:var(--green);color:#fff;font-weight:700;font-size:14px;font-family:inherit;cursor:pointer}
 .wallet-box button:disabled{background:#D7DEE6;color:#8A97A6;cursor:not-allowed}
 .wallet-note{font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.5}
 
-/* ---------- toast ---------- */
 .toast{
   position:fixed;left:50%;bottom:24px;transform:translate(-50%,120%);
   background:#0F172A;color:#fff;padding:11px 18px;border-radius:11px;
@@ -221,30 +156,16 @@ body{
 .toast.warn{background:#B45309}
 .toast.err{background:var(--red)}
 
-/* ---------- dev modal ---------- */
-.modal{
-  position:fixed;inset:0;background:rgba(15,23,42,.55);
-  display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;
-}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
 .modal.show{display:flex}
-.modal .box{
-  background:#fff;border-radius:16px;padding:20px;max-width:380px;width:100%;
-  max-height:80vh;overflow:auto;
-}
+.modal .box{background:#fff;border-radius:16px;padding:20px;max-width:380px;width:100%;max-height:80vh;overflow:auto}
 .modal h3{margin:0 0 4px;font-size:16px}
 .modal p{font-size:12.5px;color:var(--muted);margin:0 0 14px}
-.modal .stat{
-  display:flex;justify-content:space-between;padding:8px 0;
-  border-bottom:1px solid var(--line);font-size:13px;
-}
+.modal .stat{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
 .modal .stat span:last-child{font-weight:700}
 .modal .stat.warn span:last-child{color:var(--red)}
 .modal .stat.ok span:last-child{color:var(--green-dark)}
-.modal button{
-  width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);
-  background:#fff;font-weight:650;font-size:13.5px;font-family:inherit;
-  cursor:pointer;margin-top:9px;
-}
+.modal button{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:650;font-size:13.5px;font-family:inherit;cursor:pointer;margin-top:9px}
 .modal button.danger{background:#FEF2F2;border-color:#FECACA;color:var(--red)}
 .modal button.primary{background:var(--green);border-color:var(--green);color:#fff}
 
@@ -259,7 +180,6 @@ body{
 <body>
 <div class="app">
 
-  <!-- ===== TOP BAR ===== -->
   <div class="topbar">
     <div class="brand">
       <div class="logo">R</div>
@@ -271,35 +191,23 @@ body{
     <button class="icon-btn" id="devBtn" title="Stats">⚙</button>
   </div>
 
-  <!-- ===== BALANCE ===== -->
   <div class="balance">
     <div class="label">Your Balance</div>
     <div class="pts" id="balPts">0 <small>pts</small></div>
     <div class="naira" id="balNaira">≈ ₦0.00</div>
     <div class="row">
-      <div>
-        <div class="k">Today</div>
-        <div class="v" id="todayPts">0 pts</div>
-      </div>
-      <div>
-        <div class="k">Tasks Done</div>
-        <div class="v" id="totalDone">0</div>
-      </div>
-      <div>
-        <div class="k">Streak</div>
-        <div class="v" id="streakVal">0d</div>
-      </div>
+      <div><div class="k">Today</div><div class="v" id="todayPts">0 pts</div></div>
+      <div><div class="k">Tasks Done</div><div class="v" id="totalDone">0</div></div>
+      <div><div class="k">Streak</div><div class="v" id="streakVal">0d</div></div>
     </div>
   </div>
 
-  <!-- ===== TABS ===== -->
   <nav class="tabs">
     <button class="tab active" data-tab="tasks">Tasks</button>
     <button class="tab" data-tab="history">History</button>
     <button class="tab" data-tab="wallet">Wallet</button>
   </nav>
 
-  <!-- ===== TASKS PANEL ===== -->
   <div class="panel active" id="panel-tasks">
     <div class="limits">
       <div class="pill"><div class="n" id="limHour">0/20</div><div class="t">This Hour</div></div>
@@ -309,12 +217,10 @@ body{
     <div class="task-list" id="taskList"></div>
   </div>
 
-  <!-- ===== HISTORY PANEL ===== -->
   <div class="panel" id="panel-history">
     <div id="historyList"></div>
   </div>
 
-  <!-- ===== WALLET PANEL ===== -->
   <div class="panel" id="panel-wallet">
     <div class="wallet-box">
       <div class="big-pts" id="wPts">0</div>
@@ -330,17 +236,15 @@ body{
 
 </div>
 
-<!-- ===== DEV / STATS MODAL ===== -->
 <div class="modal" id="devModal">
   <div class="box">
     <h3>Session Stats</h3>
     <p>Local device data only. Nothing is sent to a server.</p>
     <div class="stat"><span>Total points</span><span id="sPts">0</span></div>
     <div class="stat"><span>Tasks completed</span><span id="sDone">0</span></div>
-    <div class="stat"><span>Task clicks</span><span id="sClicks">0</span></div>
-    <div class="stat"><span>Blocked / no fire</span><span id="sBlocked">0</span></div>
+    <div class="stat"><span>Popunders fired</span><span id="sFired">0</span></div>
+    <div class="stat"><span>Popunders blocked</span><span id="sBlocked">0</span></div>
     <div class="stat"><span>Clicks this hour</span><span id="sHour">0</span></div>
-    <div class="stat"><span>Hilltop script</span><span id="sScript">—</span></div>
     <div class="stat"><span>Bot check</span><span id="sBot">—</span></div>
     <button class="primary" id="closeDev">Close</button>
     <button class="danger" id="resetAll">Reset All Data</button>
@@ -351,28 +255,24 @@ body{
 
 <script>
 /* ============================================================================
-   ██  CONFIG — EDIT THIS BLOCK ONLY
+   ██  CONFIG
    ============================================================================ */
 const CONFIG = {
-  /* Hilltop popunder is installed in <head>. The script fires on click.
-     Leave this TRUE so we don't double-open a window ourselves. */
-  USE_HEAD_SCRIPT: true,
-
-  /* Optional direct-link fallback (only used if USE_HEAD_SCRIPT = false) */
-  HILLTOP_DIRECT_LINK: "",
+  /* Direct Link mode — popunder fires on every task button click */
+  HILLTOP_DIRECT_LINK: "https://idealistic-revenue.com/TCztuL",
 
   /* --- ECONOMY --- */
-  POINTS_PER_NAIRA: 100,      // 100 points = ₦1.00
-  MIN_WITHDRAW_NAIRA: 1000,   // ₦1,000 minimum
+  POINTS_PER_NAIRA: 100,
+  MIN_WITHDRAW_NAIRA: 1000,
 
-  /* --- TRAFFIC QUALITY CONTROLS (protect your Hilltop account) --- */
-  MIN_GAP_SECONDS: 10,        // cool-down between task clicks
-  MAX_PER_HOUR: 20,           // clicks allowed per rolling hour
-  MAX_PER_DAY: 50,            // clicks allowed per calendar day
+  /* --- TRAFFIC QUALITY CONTROLS --- */
+  MIN_GAP_SECONDS: 10,
+  MAX_PER_HOUR: 20,
+  MAX_PER_DAY: 50,
 
   /* --- TASKS --- */
   TASK_COUNT: 100,
-  CREDIT_IF_NO_FIRE: true     // still award points if popunder was blocked
+  CREDIT_IF_NO_FIRE: true
 };
 /* ========================================================================== */
 
@@ -404,7 +304,7 @@ function buildTasks() {
       title: p.title + " #" + round,
       tag: p.tag,
       time: p.time,
-      points: 5 + (i % 6)          // deterministic 5,6,7,8,9,10
+      points: 5 + (i % 6)
     });
   }
   return out;
@@ -420,11 +320,11 @@ const STORE_KEY = "ngr_rewards_v1";
 let state = {
   points: 0,
   totalDone: 0,
-  taskClicks: 0,
+  fired: 0,
   blocked: 0,
-  completions: {},        // { taskId: "YYYY-MM-DD" }
-  clicks: [],             // [timestamp, ...]
-  history: [],            // [{id,title,points,ts,fired}]
+  completions: {},
+  clicks: [],
+  history: [],
   firstSeen: Date.now()
 };
 
@@ -432,7 +332,7 @@ function load() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
     if (raw) state = Object.assign(state, JSON.parse(raw));
-  } catch (e) { /* ignore corrupt storage */ }
+  } catch (e) {}
 }
 function save() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
@@ -452,11 +352,7 @@ function todayKey(d) {
          String(x.getMonth() + 1).padStart(2, "0") + "-" +
          String(x.getDate()).padStart(2, "0");
 }
-
-function naira(points) {
-  return "₦" + (points / CONFIG.POINTS_PER_NAIRA).toFixed(2);
-}
-
+function naira(points) { return "₦" + (points / CONFIG.POINTS_PER_NAIRA).toFixed(2); }
 function timeAgo(ts) {
   const s = Math.floor((Date.now() - ts) / 1000);
   if (s < 60) return "just now";
@@ -464,7 +360,6 @@ function timeAgo(ts) {
   if (s < 86400) return Math.floor(s / 3600) + "h ago";
   return Math.floor(s / 86400) + "d ago";
 }
-
 function isBot() {
   if (navigator.webdriver === true) return true;
   const ua = navigator.userAgent || "";
@@ -473,11 +368,6 @@ function isBot() {
   if (!navigator.languages || navigator.languages.length === 0) return true;
   return false;
 }
-
-function hilltopScriptPresent() {
-  return !!document.querySelector('script[src*="surefootedpause"]');
-}
-
 function pruneClicks() {
   const cutoff = Date.now() - 86400000;
   state.clicks = state.clicks.filter(t => t > cutoff);
@@ -491,7 +381,6 @@ function clicksToday() {
   return state.clicks.filter(t => todayKey(t) === key).length;
 }
 function dayKeyFromTs(ts) { return todayKey(ts); }
-
 function streak() {
   const days = new Set(state.history.map(h => dayKeyFromTs(h.ts)));
   let n = 0;
@@ -518,33 +407,39 @@ function toast(msg, type) {
 
 
 /* ============================================================================
-   POPUNDER
+   POPUNDER — Direct Link
    ============================================================================
-   Hilltop's popunder script is loaded in <head>. It attaches its own click
-   listener to the document and opens the popunder behind the current window.
+   The popunder technique:
+     1. window.open() synchronously inside the click handler
+     2. Immediately blur() the new window
+     3. Immediately focus() back on our page
+   This pushes the new window behind the current one — the classic popunder.
 
-   Because we cannot reliably intercept its internal state, we treat every
-   task-button click as a successful fire and let Hilltop count the impression
-   server-side. If you later add a direct link, set USE_HEAD_SCRIPT: false
-   and populate HILLTOP_DIRECT_LINK.
+   Browsers only allow this when the call happens synchronously inside a
+   real user click. Our completeTask() runs inside the click handler, so
+   the timing is correct.
 */
 function firePopunder() {
-  // --- Script mode: the head script fires on click itself. ---
-  if (CONFIG.USE_HEAD_SCRIPT) {
-    return hilltopScriptPresent();  // true if the loader script exists in DOM
-  }
+  const url = CONFIG.HILLTOP_DIRECT_LINK;
+  if (!url) return false;
 
-  // --- Direct link mode ---
-  if (CONFIG.HILLTOP_DIRECT_LINK) {
-    try {
-      const w = window.open(CONFIG.HILLTOP_DIRECT_LINK, "_blank", "noopener,noreferrer");
-      return !!(w && !w.closed);
-    } catch (e) {
-      return false;
-    }
-  }
+  try {
+    const w = window.open(
+      url,
+      "_blank",
+      "width=1024,height=768,top=0,left=0,toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no"
+    );
 
-  return false;
+    if (!w) return false;   // popup blocked
+
+    // Push it behind the current window
+    try { w.blur(); } catch (e) {}
+    try { window.focus(); } catch (e) {}
+
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 
@@ -565,7 +460,6 @@ function startCooldown() {
     renderTasks();
   }, 500);
 }
-
 function cooldownLeft() {
   return Math.max(0, Math.ceil((cooldownUntil - Date.now()) / 1000));
 }
@@ -578,40 +472,23 @@ function completeTask(taskId) {
   const task = TASKS.find(t => t.id === taskId);
   if (!task) return;
 
-  if (isBot()) {
-    toast("Task unavailable on this device", "err");
-    return;
-  }
-  if (state.completions[task.id] === todayKey()) {
-    toast("Already completed today", "warn");
-    return;
-  }
+  if (isBot()) { toast("Task unavailable on this device", "err"); return; }
+  if (state.completions[task.id] === todayKey()) { toast("Already completed today", "warn"); return; }
 
   const left = cooldownLeft();
-  if (left > 0) {
-    toast("Please wait " + left + "s", "warn");
-    return;
-  }
+  if (left > 0) { toast("Please wait " + left + "s", "warn"); return; }
 
   pruneClicks();
-  if (clicksThisHour() >= CONFIG.MAX_PER_HOUR) {
-    toast("Hourly limit reached. Try again later.", "warn");
-    return;
-  }
-  if (clicksToday() >= CONFIG.MAX_PER_DAY) {
-    toast("Daily limit reached. Come back tomorrow.", "warn");
-    return;
-  }
+  if (clicksThisHour() >= CONFIG.MAX_PER_HOUR) { toast("Hourly limit reached. Try again later.", "warn"); return; }
+  if (clicksToday() >= CONFIG.MAX_PER_DAY) { toast("Daily limit reached. Come back tomorrow.", "warn"); return; }
 
-  // Fire the popunder. In script mode, Hilltop's click listener also fires
-  // automatically on this same click event.
+  // FIRE — must be synchronous inside this click handler
   const fired = firePopunder();
 
   if (fired || CONFIG.CREDIT_IF_NO_FIRE) {
     state.points += task.points;
     state.totalDone += 1;
-    state.taskClicks += 1;
-    if (!fired) state.blocked++;
+    if (fired) state.fired++; else state.blocked++;
     state.completions[task.id] = todayKey();
     state.clicks.push(Date.now());
 
@@ -628,7 +505,7 @@ function completeTask(taskId) {
     renderAll();
     toast("+" + task.points + " points earned!", "ok");
   } else {
-    toast("Ad could not open. Check your browser.", "err");
+    toast("Please allow popups to earn", "err");
   }
 
   startCooldown();
@@ -650,11 +527,8 @@ function renderBalance() {
 
 function renderLimits() {
   pruneClicks();
-  const h = clicksThisHour();
-  const d = clicksToday();
-  $("#limHour").textContent = h + "/" + CONFIG.MAX_PER_HOUR;
-  $("#limDay").textContent  = d + "/" + CONFIG.MAX_PER_DAY;
-
+  $("#limHour").textContent = clicksThisHour() + "/" + CONFIG.MAX_PER_HOUR;
+  $("#limDay").textContent  = clicksToday() + "/" + CONFIG.MAX_PER_DAY;
   const doneToday = Object.values(state.completions).filter(v => v === todayKey()).length;
   $("#limLeft").textContent = Math.max(0, TASKS.length - doneToday);
 }
@@ -715,7 +589,7 @@ function renderHistory() {
     '<div class="hist-item">' +
       '<div>' +
         '<div class="t">' + h.title + '</div>' +
-        '<div class="d">' + timeAgo(h.ts) + '</div>' +
+        '<div class="d">' + timeAgo(h.ts) + (h.fired ? "" : " · blocked") + '</div>' +
       '</div>' +
       '<div class="p">+' + h.points + '</div>' +
     '</div>'
@@ -728,7 +602,6 @@ function renderWallet() {
   $("#wRate").textContent =
     CONFIG.POINTS_PER_NAIRA + " points = ₦1.00 · Minimum ₦" +
     CONFIG.MIN_WITHDRAW_NAIRA.toLocaleString();
-
   const btn = $("#withdrawBtn");
   const canWithdraw = (state.points / CONFIG.POINTS_PER_NAIRA) >= CONFIG.MIN_WITHDRAW_NAIRA;
   btn.disabled = !canWithdraw;
@@ -747,15 +620,12 @@ function renderAll() {
 /* ============================================================================
    EVENTS
    ============================================================================ */
-// Task clicks (delegated). Click bubbles to document, so Hilltop's own
-// click listener also receives this event and fires the popunder.
 $("#taskList").addEventListener("click", function (e) {
   const btn = e.target.closest("button.go");
   if (!btn || btn.disabled) return;
   completeTask(btn.dataset.id);
 });
 
-// Tabs
 $$(".tab").forEach(tab => {
   tab.addEventListener("click", () => {
     $$(".tab").forEach(t => t.classList.remove("active"));
@@ -765,32 +635,15 @@ $$(".tab").forEach(tab => {
   });
 });
 
-// Dev modal
 $("#devBtn").addEventListener("click", () => {
   $("#sPts").textContent     = state.points.toLocaleString();
   $("#sDone").textContent    = state.totalDone;
-  $("#sClicks").textContent  = state.taskClicks;
+  $("#sFired").textContent   = state.fired;
   $("#sBlocked").textContent = state.blocked;
   $("#sHour").textContent    = clicksThisHour() + " / " + CONFIG.MAX_PER_HOUR;
-
-  const scriptEl = $("#sScript");
-  if (hilltopScriptPresent()) {
-    scriptEl.textContent = "Loaded ✓";
-    scriptEl.parentElement.className = "stat ok";
-  } else {
-    scriptEl.textContent = "Missing ⚠";
-    scriptEl.parentElement.className = "stat warn";
-  }
-
   const botEl = $("#sBot");
-  if (isBot()) {
-    botEl.textContent = "FAILED ⚠";
-    botEl.parentElement.className = "stat warn";
-  } else {
-    botEl.textContent = "Passed ✓";
-    botEl.parentElement.className = "stat ok";
-  }
-
+  if (isBot()) { botEl.textContent = "FAILED ⚠"; botEl.parentElement.className = "stat warn"; }
+  else { botEl.textContent = "Passed ✓"; botEl.parentElement.className = "stat ok"; }
   $("#devModal").classList.add("show");
 });
 $("#closeDev").addEventListener("click", () => $("#devModal").classList.remove("show"));
@@ -802,8 +655,6 @@ $("#resetAll").addEventListener("click", () => {
   localStorage.removeItem(STORE_KEY);
   location.reload();
 });
-
-// Withdraw (frontend placeholder)
 $("#withdrawBtn").addEventListener("click", () => {
   toast("Withdrawals open soon", "warn");
 });
@@ -813,23 +664,17 @@ $("#withdrawBtn").addEventListener("click", () => {
    BOOT
    ============================================================================ */
 renderAll();
-
 setInterval(() => {
   renderLimits();
   if (cooldownLeft() > 0) renderTasks();
 }, 1000);
-
 setInterval(renderHistory, 60000);
 
-// Warn in console if the Hilltop loader tag is missing
-if (!hilltopScriptPresent()) {
-  console.warn("[Rewards] Hilltop popunder script not found in DOM.");
-}
 console.log(
   "%cRewards · frontend build",
   "color:#00A651;font-weight:700;font-size:13px",
   "\nTasks:", TASKS.length,
-  "\nHilltop script:", hilltopScriptPresent() ? "detected" : "MISSING",
+  "\nPopunder: Direct Link →", CONFIG.HILLTOP_DIRECT_LINK,
   "\nBot check:", isBot() ? "FAILED" : "passed"
 );
 </script>
