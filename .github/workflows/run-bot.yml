@@ -1,7 +1,10 @@
 name: Run Headless Browser Task
 
 on:
-  workflow_dispatch: # Allows you to manually click "Run workflow" on GitHub
+  workflow_dispatch: # Allows manual trigger button usage
+  schedule:
+    # Triggers the runner automatically at the start of every hour, 24/7
+    - cron: '0 * * * *'
 
 jobs:
   run-browser-bot:
@@ -21,9 +24,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Installs the automated headless chrome browser onto the virtual machine
     - name: Install Playwright Browsers
       run: npx playwright install chromium --with-deps
 
     - name: Execute Automation Script
       run: python bot.py
+      
