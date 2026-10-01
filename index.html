@@ -61,6 +61,13 @@ body{
 }
 .icon-btn:active{transform:scale(.94)}
 
+.test-badge{
+  display:none;font-size:9.5px;font-weight:800;letter-spacing:.6px;
+  background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;
+  padding:2px 6px;border-radius:5px;margin-left:6px;vertical-align:middle;
+}
+body.test-mode .test-badge{display:inline-block}
+
 .balance{
   background:linear-gradient(135deg,#00A651 0%,#00753A 100%);
   border-radius:18px;padding:18px 18px 16px;color:#fff;
@@ -184,7 +191,7 @@ body{
     <div class="brand">
       <div class="logo">R</div>
       <div>
-        <h1>Rewards</h1>
+        <h1>Rewards<span class="test-badge">TEST MODE</span></h1>
         <span class="sub" id="greet">Complete tasks · Earn points</span>
       </div>
     </div>
@@ -242,8 +249,9 @@ body{
     <p>Local device data only. Nothing is sent to a server.</p>
     <div class="stat"><span>Total points</span><span id="sPts">0</span></div>
     <div class="stat"><span>Tasks completed</span><span id="sDone">0</span></div>
-    <div class="stat"><span>Popunders fired</span><span id="sFired">0</span></div>
-    <div class="stat"><span>Popunders blocked</span><span id="sBlocked">0</span></div>
+    <div class="stat"><span>Full loops finished</span><span id="sLoops">0</span></div>
+    <div class="stat"><span>Ads fired</span><span id="sFired">0</span></div>
+    <div class="stat"><span>Ads blocked</span><span id="sBlocked">0</span></div>
     <div class="stat"><span>Clicks this hour</span><span id="sHour">0</span></div>
     <div class="stat"><span>Bot check</span><span id="sBot">—</span></div>
     <button class="primary" id="closeDev">Close</button>
@@ -258,6 +266,16 @@ body{
    ██  CONFIG
    ============================================================================ */
 const CONFIG = {
+  /* ------------------------------------------------------------------
+     ⚠  TEST MODE
+     ------------------------------------------------------------------
+     true  → automated bots allowed, no cooldown, no caps, auto-reset
+             loop. The ad network is NEVER contacted (the popunder is
+             simulated locally), so this generates zero real ad traffic.
+     false → normal production behaviour with all safety limits active.
+     ------------------------------------------------------------------ */
+  TEST_MODE: true,
+
   /* Direct Link mode — popunder fires on every task button click */
   HILLTOP_DIRECT_LINK: "https://idealistic-revenue.com/TCztuL",
 
@@ -274,6 +292,14 @@ const CONFIG = {
   TASK_COUNT: 100,
   CREDIT_IF_NO_FIRE: true
 };
+
+/* --- TEST MODE OVERRIDES (applied before anything reads them) --- */
+if (CONFIG.TEST_MODE) {
+  CONFIG.MIN_GAP_SECONDS   = 0;     // no waiting between clicks
+  CONFIG.MAX_PER_HOUR      = 999;   // no hourly cap
+  CONFIG.MAX_PER_DAY       = 999;   // no daily cap
+  CONFIG.CREDIT_IF_NO_FIRE = true;  // always credit
+}
 /* ========================================================================== */
 
 
@@ -322,6 +348,7 @@ let state = {
   totalDone: 0,
   fired: 0,
   blocked: 0,
+  loops: 0,
   completions: {},
   clicks: [],
   history: [],
@@ -360,7 +387,15 @@ function timeAgo(ts) {
   if (s < 86400) return Math.floor(s / 3600) + "h ago";
   return Math.floor(s / 86400) + "d ago";
 }
+
+/* ------------------------------------------------------------------
+   isBot()
+   TEST_MODE → always false so headless/automation browsers pass.
+   Production → original heuristic detection.
+------------------------------------------------------------------ */
 function isBot() {
+  if (CONFIG.TEST_MODE) return false;
+
   if (navigator.webdriver === true) return true;
   const ua = navigator.userAgent || "";
   if (/HeadlessChrome|PhantomJS|Selenium|Puppeteer|Playwright|Electron/i.test(ua)) return true;
@@ -368,6 +403,7 @@ function isBot() {
   if (!navigator.languages || navigator.languages.length === 0) return true;
   return false;
 }
+
 function pruneClicks() {
   const cutoff = Date.now() - 86400000;
   state.clicks = state.clicks.filter(t => t > cutoff);
@@ -381,6 +417,10 @@ function clicksToday() {
   return state.clicks.filter(t => todayKey(t) === key).length;
 }
 function dayKeyFromTs(ts) { return todayKey(ts); }
+function doneTodayCount() {
+  const key = todayKey();
+  return Object.values(state.completions).filter(v => v === key).length;
+}
 function streak() {
   const days = new Set(state.history.map(h => dayKeyFromTs(h.ts)));
   let n = 0;
@@ -413,13 +453,17 @@ function toast(msg, type) {
      1. window.open() synchronously inside the click handler
      2. Immediately blur() the new window
      3. Immediately focus() back on our page
-   This pushes the new window behind the current one — the classic popunder.
+   This pushes the new window behind the current one.
 
-   Browsers only allow this when the call happens synchronously inside a
-   real user click. Our completeTask() runs inside the click handler, so
-   the timing is correct.
+   ⚠ In TEST_MODE this is SIMULATED — no request is ever made to the ad
+     network, so an automated loop produces zero real ad impressions.
 */
 function firePopunder() {
+  if (CONFIG.TEST_MODE) {
+    // Simulated fire. Nothing leaves the browser.
+    return true;
+  }
+
   const url = CONFIG.HILLTOP_DIRECT_LINK;
   if (!url) return false;
 
@@ -450,6 +494,10 @@ let cooldownUntil = 0;
 let cooldownTimer = null;
 
 function startCooldown() {
+  if (CONFIG.MIN_GAP_SECONDS <= 0) {   // TEST_MODE: no cooldown at all
+    cooldownUntil = 0;
+    return;
+  }
   cooldownUntil = Date.now() + CONFIG.MIN_GAP_SECONDS * 1000;
   clearInterval(cooldownTimer);
   cooldownTimer = setInterval(() => {
@@ -466,7 +514,7 @@ function cooldownLeft() {
 
 
 /* ============================================================================
-   COMPLETE A TASK
+   COMPLETE A TASK  (+ AUTO-RESET LOOP)
    ============================================================================ */
 function completeTask(taskId) {
   const task = TASKS.find(t => t.id === taskId);
@@ -501,9 +549,26 @@ function completeTask(taskId) {
     });
     if (state.history.length > 300) state.history.length = 300;
 
+    /* ------------------------------------------------------------------
+       AUTO-RESET LOOP
+       Once all 100 tasks are marked done, wipe the completions map so
+       every task unlocks again immediately. Points and history are kept.
+    ------------------------------------------------------------------ */
+    let looped = false;
+    if (doneTodayCount() >= TASKS.length) {
+      state.completions = {};                 // erase completions → all unlocked
+      state.loops = (state.loops || 0) + 1;   // count the full loop
+      looped = true;
+    }
+
     save();
     renderAll();
-    toast("+" + task.points + " points earned!", "ok");
+
+    if (looped) {
+      toast("Loop #" + state.loops + " complete — all 100 tasks reset!", "ok");
+    } else {
+      toast("+" + task.points + " points earned!", "ok");
+    }
   } else {
     toast("Please allow popups to earn", "err");
   }
@@ -529,8 +594,7 @@ function renderLimits() {
   pruneClicks();
   $("#limHour").textContent = clicksThisHour() + "/" + CONFIG.MAX_PER_HOUR;
   $("#limDay").textContent  = clicksToday() + "/" + CONFIG.MAX_PER_DAY;
-  const doneToday = Object.values(state.completions).filter(v => v === todayKey()).length;
-  $("#limLeft").textContent = Math.max(0, TASKS.length - doneToday);
+  $("#limLeft").textContent = Math.max(0, TASKS.length - doneTodayCount());
 }
 
 function renderTasks() {
@@ -638,12 +702,13 @@ $$(".tab").forEach(tab => {
 $("#devBtn").addEventListener("click", () => {
   $("#sPts").textContent     = state.points.toLocaleString();
   $("#sDone").textContent    = state.totalDone;
+  $("#sLoops").textContent   = state.loops || 0;
   $("#sFired").textContent   = state.fired;
   $("#sBlocked").textContent = state.blocked;
   $("#sHour").textContent    = clicksThisHour() + " / " + CONFIG.MAX_PER_HOUR;
   const botEl = $("#sBot");
   if (isBot()) { botEl.textContent = "FAILED ⚠"; botEl.parentElement.className = "stat warn"; }
-  else { botEl.textContent = "Passed ✓"; botEl.parentElement.className = "stat ok"; }
+  else { botEl.textContent = CONFIG.TEST_MODE ? "Bypassed (TEST)" : "Passed ✓"; botEl.parentElement.className = "stat ok"; }
   $("#devModal").classList.add("show");
 });
 $("#closeDev").addEventListener("click", () => $("#devModal").classList.remove("show"));
@@ -663,7 +728,10 @@ $("#withdrawBtn").addEventListener("click", () => {
 /* ============================================================================
    BOOT
    ============================================================================ */
+if (CONFIG.TEST_MODE) document.body.classList.add("test-mode");
+
 renderAll();
+
 setInterval(() => {
   renderLimits();
   if (cooldownLeft() > 0) renderTasks();
@@ -674,8 +742,10 @@ console.log(
   "%cRewards · frontend build",
   "color:#00A651;font-weight:700;font-size:13px",
   "\nTasks:", TASKS.length,
-  "\nPopunder: Direct Link →", CONFIG.HILLTOP_DIRECT_LINK,
-  "\nBot check:", isBot() ? "FAILED" : "passed"
+  "\nTEST MODE:", CONFIG.TEST_MODE ? "ON (ad network not contacted)" : "off",
+  "\nCooldown:", CONFIG.MIN_GAP_SECONDS + "s",
+  "\nCaps:", CONFIG.MAX_PER_HOUR + "/hr, " + CONFIG.MAX_PER_DAY + "/day",
+  "\nBot check:", isBot() ? "FAILED" : (CONFIG.TEST_MODE ? "bypassed" : "passed")
 );
 </script>
 </body>
