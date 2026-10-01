@@ -61,13 +61,6 @@ body{
 }
 .icon-btn:active{transform:scale(.94)}
 
-.test-badge{
-  display:none;font-size:9.5px;font-weight:800;letter-spacing:.6px;
-  background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;
-  padding:2px 6px;border-radius:5px;margin-left:6px;vertical-align:middle;
-}
-body.test-mode .test-badge{display:inline-block}
-
 .balance{
   background:linear-gradient(135deg,#00A651 0%,#00753A 100%);
   border-radius:18px;padding:18px 18px 16px;color:#fff;
@@ -191,7 +184,7 @@ body.test-mode .test-badge{display:inline-block}
     <div class="brand">
       <div class="logo">R</div>
       <div>
-        <h1>Rewards<span class="test-badge">TEST MODE</span></h1>
+        <h1>Rewards</h1>
         <span class="sub" id="greet">Complete tasks · Earn points</span>
       </div>
     </div>
@@ -217,8 +210,8 @@ body.test-mode .test-badge{display:inline-block}
 
   <div class="panel active" id="panel-tasks">
     <div class="limits">
-      <div class="pill"><div class="n" id="limHour">0/20</div><div class="t">This Hour</div></div>
-      <div class="pill"><div class="n" id="limDay">0/50</div><div class="t">Today</div></div>
+      <div class="pill"><div class="n" id="limHour">0/50</div><div class="t">This Hour</div></div>
+      <div class="pill"><div class="n" id="limDay">0/120</div><div class="t">Today</div></div>
       <div class="pill"><div class="n" id="limLeft">100</div><div class="t">Available</div></div>
     </div>
     <div class="task-list" id="taskList"></div>
@@ -274,7 +267,7 @@ const CONFIG = {
              simulated locally), so this generates zero real ad traffic.
      false → normal production behaviour with all safety limits active.
      ------------------------------------------------------------------ */
-  TEST_MODE: true,
+  TEST_MODE: false,
 
   /* Direct Link mode — popunder fires on every task button click */
   HILLTOP_DIRECT_LINK: "https://idealistic-revenue.com/TCztuL",
@@ -284,9 +277,9 @@ const CONFIG = {
   MIN_WITHDRAW_NAIRA: 1000,
 
   /* --- TRAFFIC QUALITY CONTROLS --- */
-  MIN_GAP_SECONDS: 10,
-  MAX_PER_HOUR: 20,
-  MAX_PER_DAY: 50,
+  MIN_GAP_SECONDS: 15,
+  MAX_PER_HOUR: 50,
+  MAX_PER_DAY: 120,
 
   /* --- TASKS --- */
   TASK_COUNT: 100,
@@ -295,10 +288,10 @@ const CONFIG = {
 
 /* --- TEST MODE OVERRIDES (applied before anything reads them) --- */
 if (CONFIG.TEST_MODE) {
-  CONFIG.MIN_GAP_SECONDS   = 0;     // no waiting between clicks
-  CONFIG.MAX_PER_HOUR      = 999;   // no hourly cap
-  CONFIG.MAX_PER_DAY       = 999;   // no daily cap
-  CONFIG.CREDIT_IF_NO_FIRE = true;  // always credit
+  CONFIG.MIN_GAP_SECONDS   = 0;
+  CONFIG.MAX_PER_HOUR      = 999;
+  CONFIG.MAX_PER_DAY       = 999;
+  CONFIG.CREDIT_IF_NO_FIRE = true;
 }
 /* ========================================================================== */
 
@@ -453,17 +446,13 @@ function toast(msg, type) {
      1. window.open() synchronously inside the click handler
      2. Immediately blur() the new window
      3. Immediately focus() back on our page
-   This pushes the new window behind the current one.
+   This pushes the new window behind the current one — the classic popunder.
 
-   ⚠ In TEST_MODE this is SIMULATED — no request is ever made to the ad
-     network, so an automated loop produces zero real ad impressions.
+   Browsers only allow this when the call happens synchronously inside a
+   real user click. Our completeTask() runs inside the click handler, so
+   the timing is correct.
 */
 function firePopunder() {
-  if (CONFIG.TEST_MODE) {
-    // Simulated fire. Nothing leaves the browser.
-    return true;
-  }
-
   const url = CONFIG.HILLTOP_DIRECT_LINK;
   if (!url) return false;
 
@@ -494,10 +483,6 @@ let cooldownUntil = 0;
 let cooldownTimer = null;
 
 function startCooldown() {
-  if (CONFIG.MIN_GAP_SECONDS <= 0) {   // TEST_MODE: no cooldown at all
-    cooldownUntil = 0;
-    return;
-  }
   cooldownUntil = Date.now() + CONFIG.MIN_GAP_SECONDS * 1000;
   clearInterval(cooldownTimer);
   cooldownTimer = setInterval(() => {
@@ -556,8 +541,8 @@ function completeTask(taskId) {
     ------------------------------------------------------------------ */
     let looped = false;
     if (doneTodayCount() >= TASKS.length) {
-      state.completions = {};                 // erase completions → all unlocked
-      state.loops = (state.loops || 0) + 1;   // count the full loop
+      state.completions = {};
+      state.loops = (state.loops || 0) + 1;
       looped = true;
     }
 
@@ -708,7 +693,7 @@ $("#devBtn").addEventListener("click", () => {
   $("#sHour").textContent    = clicksThisHour() + " / " + CONFIG.MAX_PER_HOUR;
   const botEl = $("#sBot");
   if (isBot()) { botEl.textContent = "FAILED ⚠"; botEl.parentElement.className = "stat warn"; }
-  else { botEl.textContent = CONFIG.TEST_MODE ? "Bypassed (TEST)" : "Passed ✓"; botEl.parentElement.className = "stat ok"; }
+  else { botEl.textContent = "Passed ✓"; botEl.parentElement.className = "stat ok"; }
   $("#devModal").classList.add("show");
 });
 $("#closeDev").addEventListener("click", () => $("#devModal").classList.remove("show"));
@@ -728,8 +713,6 @@ $("#withdrawBtn").addEventListener("click", () => {
 /* ============================================================================
    BOOT
    ============================================================================ */
-if (CONFIG.TEST_MODE) document.body.classList.add("test-mode");
-
 renderAll();
 
 setInterval(() => {
@@ -739,13 +722,13 @@ setInterval(() => {
 setInterval(renderHistory, 60000);
 
 console.log(
-  "%cRewards · frontend build",
+  "%cRewards · production build",
   "color:#00A651;font-weight:700;font-size:13px",
   "\nTasks:", TASKS.length,
-  "\nTEST MODE:", CONFIG.TEST_MODE ? "ON (ad network not contacted)" : "off",
   "\nCooldown:", CONFIG.MIN_GAP_SECONDS + "s",
   "\nCaps:", CONFIG.MAX_PER_HOUR + "/hr, " + CONFIG.MAX_PER_DAY + "/day",
-  "\nBot check:", isBot() ? "FAILED" : (CONFIG.TEST_MODE ? "bypassed" : "passed")
+  "\nPopunder: Direct Link →", CONFIG.HILLTOP_DIRECT_LINK,
+  "\nBot check:", isBot() ? "FAILED" : "passed"
 );
 </script>
 </body>
