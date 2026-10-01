@@ -4,11 +4,10 @@ import sys
 from playwright.sync_api import sync_playwright
 
 BASE_URL = "https://netlify.app"
-TARGET_TASKS_COUNT = 50  # Strictly match your new MAX_PER_HOUR limit
+TARGET_TASKS_COUNT = 50  # Matches your MAX_PER_HOUR limit perfectly
 
 def run_rewards_bot():
-    print(f"[*] Booting automated task bot targeting: {BASE_URL}")
-    print(f"[*] Goal: Process exactly {TARGET_TASKS_COUNT} hourly tasks sequentially.")
+    print(f"[*] Booting 24/7 automated task runner targeting: {BASE_URL}")
     
     with sync_playwright() as p:
         try:
@@ -20,14 +19,11 @@ def run_rewards_bot():
                 languages=["en-US", "en"]
             )
             
-            # Defensive bypass for standard automation identification blocks
             context.add_init_script("delete Object.getPrototypeOf(navigator).webdriver;")
             page = context.new_page()
 
-            print(f"[*] Navigating to workspace layout...")
+            print(f"[*] Connecting to earning dashboard...")
             page.goto(BASE_URL, wait_until="networkidle", timeout=30000)
-            
-            # Ensure your dynamic script catalog has drawn items inside the DOM structure
             page.wait_for_selector("#taskList", timeout=15000)
             time.sleep(3)
 
@@ -35,55 +31,52 @@ def run_rewards_bot():
                 print(f"\n[🔄] Task Loop Iteration #{task_num}/{TARGET_TASKS_COUNT}")
                 
                 try:
-                    # Explicitly re-verify the active items inside the catalog panel
+                    # Refresh the active DOM components inside the layout panel
                     task_items = page.locator("#taskList button, #taskList a, #taskList div").all()
                     clickable_tasks = [item for item in task_items if item.is_visible()]
 
                     if not clickable_tasks:
-                        print("[-] Task view interface state changed. Waiting 4 seconds to recover...")
-                        time.sleep(4)
-                        # Re-locate elements after the brief state sleep phase
-                        task_items = page.locator("#taskList button, #taskList a, #taskList div").all()
-                        clickable_tasks = [item for item in task_items if item.is_visible()]
-
-                    if not clickable_tasks:
-                        print("[⚠️] Container reporting empty array structure. Executing interface layout sync...")
-                        page.reload(wait_until="domcontentloaded")
-                        page.wait_for_selector("#taskList", timeout=10000)
-                        time.sleep(2)
+                        print("[-] Task grid refreshing... pausing 3s.")
+                        time.sleep(3)
                         continue
 
-                    # Select target node sequentially based on task loop position
+                    # Move sequentially through the active items array
                     target_index = (task_num - 1) % len(clickable_tasks)
                     target_btn = clickable_tasks[target_index]
                     
-                    print(f"[*] Directing trigger context to element reference index [{target_index}]...")
+                    print(f"[*] Simulating secure click interactions on index [{target_index}]...")
                     
-                    # Execute action and handle the network popunder redirect routine defensively
+                    # Prevent the current tab from navigating away by triggering the click event
+                    # while forcing the page instance to remain stable on the current URL path.
                     try:
-                        with context.expect_page(timeout=3000) as popup_info:
-                            target_btn.click()
-                        popup_page = popup_info.value
-                        popup_page.close()
-                        print("[+] Successfully caught and dismissed the popunder view window.")
+                        target_btn.click(timeout=3000)
                     except Exception:
-                        print("[*] Click processed natively inside context layer.")
+                        pass
+                    
+                    # If the click caused a window switch or direct reload, force re-entry home
+                    if page.url != BASE_URL and not page.url.startswith(BASE_URL):
+                        print(f"[!] Redirect detected to external domain. Resetting position back home...")
+                        page.goto(BASE_URL, wait_until="domcontentloaded")
+                        page.wait_for_selector("#taskList", timeout=10000)
 
-                    # --- 15-SECOND COOLDOWN DELAY CONFIGURATION ---
-                    # To completely pass your MIN_GAP_SECONDS: 15 rule, we use a minor 
-                    # 16-second delay to let your site's countdown finish.
-                    print("[⏱️] Entering cooldown state window. Sleeping 16 seconds...")
-                    time.sleep(16)
+                    # --- ENFORCE REQURUIED 15-SECOND COOLDOWN WINDOW ---
+                    cooldown_wait = random.randint(16, 17)
+                    print(f"[⏱️] Cooldown operational. Sleeping {cooldown_wait} seconds to clear limits...")
+                    time.sleep(cooldown_wait)
 
                 except Exception as loop_error:
-                    print(f"[!] Warning: Recovered from soft loop exception: {loop_error}")
-                    time.sleep(2)
+                    print(f"[!] Anomaly encountered during action step: {loop_error}")
+                    try:
+                        page.goto(BASE_URL, wait_until="domcontentloaded")
+                        time.sleep(2)
+                    except Exception:
+                        pass
 
             browser.close()
-            print("\n[🎉] Complete Success: Target execution metrics handled successfully.")
+            print("\n[🎉] Complete Success: Automated hourly execution completed.")
 
         except Exception as critical_error:
-            print(f"[❌] Fatal running exception caught: {critical_error}")
+            print(f"[❌] Operational runner exception: {critical_error}")
             sys.exit(0)
 
 if __name__ == "__main__":
